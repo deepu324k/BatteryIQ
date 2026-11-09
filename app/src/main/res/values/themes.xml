@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.BatteryIQ" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/green_500</item>
+        <item name="colorPrimaryContainer">@color/green_100</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimaryContainer">@color/green_900</item>
+        <item name="colorSecondary">@color/green_300</item>
+        <item name="colorSecondaryContainer">@color/green_50</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorOnSecondaryContainer">@color/green_800</item>
+        <item name="colorTertiary">@color/teal_500</item>
+        <item name="colorTertiaryContainer">@color/teal_100</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+</resources>

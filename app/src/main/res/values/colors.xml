@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Green Palette -->
+    <color name="green_50">#F1F8E9</color>
+    <color name="green_100">#DCEDC8</color>
+    <color name="green_200">#C5E1A5</color>
+    <color name="green_300">#AED581</color>
+    <color name="green_400">#9CCC65</color>
+    <color name="green_500">#4CAF50</color>
+    <color name="green_600">#43A047</color>
+    <color name="green_700">#388E3C</color>
+    <color name="green_800">#2E7D32</color>
+    <color name="green_900">#1B5E20</color>
+
+    <!-- Teal Accent -->
+    <color name="teal_100">#B2DFDB</color>
+    <color name="teal_500">#009688</color>
+
+    <!-- Neutrals -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="surface_dark">#121212</color>
+    <color name="on_surface_dark">#E0E0E0</color>
+
+    <!-- Battery Status Colors -->
+    <color name="battery_full">#4CAF50</color>
+    <color name="battery_good">#8BC34A</color>
+    <color name="battery_medium">#FFC107</color>
+    <color name="battery_low">#FF9800</color>
+    <color name="battery_critical">#F44336</color>
+</resources>
