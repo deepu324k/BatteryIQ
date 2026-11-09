@@ -10,3 +10,5 @@ app/build/
 .externalNativeBuild
 .cxx
 local.properties
+*.apk
+RELEASE_NOTES_*.md

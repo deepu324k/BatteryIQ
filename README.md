@@ -18,10 +18,10 @@ Get the latest version of **BatteryIQ** directly onto your phone without needing
 
 | Version | Download Link | Release Date | What's New |
 | :---: | :---: | :---: | :--- |
-| **v1.0.0 (Latest)** | [📲 **Download BatteryIQ-v1.0.0.apk**](https://github.com/deepu324k/BatteryIQ/releases/download/v1.0.0/app-debug.apk) | March 2025 | Initial Release (Wattage tracking, Health Score, System stats, Widget) |
+| **v1.0.0 (Latest)** | [📲 **Download BatteryIQ-v1.0.0.apk**](https://github.com/deepu324k/BatteryIQ/releases/download/v1.0.0/BatteryIQ_v1.0.0.apk) | March 2025 | Initial Release (Wattage tracking, Health Score, System stats, Widget) |
 
 ### 📲 How to Install / Update on Your Phone:
-1. Tap the **[Download BatteryIQ APK](https://github.com/deepu324k/BatteryIQ/releases/download/v1.0.0/app-debug.apk)** link above directly on your Android device.
+1. Tap the **[Download BatteryIQ APK](https://github.com/deepu324k/BatteryIQ/releases/download/v1.0.0/BatteryIQ_v1.0.0.apk)** link above directly on your Android device.
 2. Open the downloaded `.apk` file from your browser downloads or Files app.
 3. If prompted, allow **"Install from unknown sources"** for your browser.
 4. Tap **Install** (or **Update** if you already have an older version installed).
