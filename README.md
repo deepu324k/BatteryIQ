@@ -1,6 +1,33 @@
 # 🔋 BatteryIQ — Advanced Android Battery & System Health Monitor
 
-**BatteryIQ** is an end-to-end, cutting-edge Android application built with **100% Kotlin**, **Jetpack Compose**, **Material 3**, and **Clean Architecture (MVVM)**. It features an emerald green & white aesthetic, real-time power (Wattage) monitoring, battery health diagnosis, system resource tracking, notifications, and an Android Glance home screen widget.
+<p align="center">
+  <a href="https://github.com/deepu324k/BatteryIQ/releases/latest">
+    <img src="https://img.shields.io/badge/Direct%20Download-Latest%20APK-2E7D32?style=for-the-badge&logo=android&logoColor=white" alt="Download BatteryIQ APK">
+  </a>
+  <a href="https://github.com/deepu324k/BatteryIQ/releases">
+    <img src="https://img.shields.io/github/v/release/deepu324k/BatteryIQ?style=for-the-badge&color=1B5E20" alt="Latest Release">
+  </a>
+  <img src="https://img.shields.io/badge/Platform-Android%208.0%2B-4CAF50?style=for-the-badge&logo=android" alt="Android Version">
+</p>
+
+---
+
+## 📥 Direct Download & Updates
+
+Get the latest version of **BatteryIQ** directly onto your phone without needing a computer or app store!
+
+| Version | Download Link | Release Date | What's New |
+| :---: | :---: | :---: | :--- |
+| **v1.0.0 (Latest)** | [📲 **Download BatteryIQ-v1.0.0.apk**](https://github.com/deepu324k/BatteryIQ/releases/download/v1.0.0/app-debug.apk) | March 2025 | Initial Release (Wattage tracking, Health Score, System stats, Widget) |
+
+### 📲 How to Install / Update on Your Phone:
+1. Tap the **[Download BatteryIQ APK](https://github.com/deepu324k/BatteryIQ/releases/download/v1.0.0/app-debug.apk)** link above directly on your Android device.
+2. Open the downloaded `.apk` file from your browser downloads or Files app.
+3. If prompted, allow **"Install from unknown sources"** for your browser.
+4. Tap **Install** (or **Update** if you already have an older version installed).
+5. Open **BatteryIQ** and enjoy!
+
+> 💡 **Tip for New Versions:** Bookmark this page or check [Releases Page](https://github.com/deepu324k/BatteryIQ/releases) anytime to grab new update APKs as soon as they are released!
 
 ---
 
@@ -107,29 +134,20 @@ com.batteryiq.app/
 
 ## 🛠️ Build & Installation
 
-### Option 1: Android Studio (Recommended)
-1. Open **Android Studio Hedgehog (2023.1.1)** or newer.
-2. Select **File > Open** and browse to:
-   ```
-   C:\Users\ASUS\.gemini\antigravity\scratch\BatteryIQ
-   ```
-3. Allow Gradle to sync dependencies.
-4. Connect an Android device (or launch an Emulator running Android 8.0+ / API 26+).
-5. Click **Run (`Shift + F10`)**.
+### Option 1: Direct APK Download (Easy)
+Download `app-debug.apk` directly from the [Releases Page](https://github.com/deepu324k/BatteryIQ/releases/latest) onto your Android phone and install.
 
-### Option 2: Command Line (Gradle)
+### Option 2: Android Studio
+1. Open **Android Studio**.
+2. Clone & open the project.
+3. Connect an Android device (or launch an Emulator running Android 8.0+ / API 26+).
+4. Click **Run (`Shift + F10`)**.
+
+### Option 3: Command Line (Gradle)
 ```powershell
-cd C:\Users\ASUS\.gemini\antigravity\scratch\BatteryIQ
 .\gradlew assembleDebug
 ```
-The compiled APK will be generated at:
-```
-app/build/outputs/apk/debug/app-debug.apk
-```
-Install it onto your phone with:
-```powershell
-adb install app/build/outputs/apk/debug/app-debug.apk
-```
+The compiled APK will be generated at `app/build.gradle/outputs/apk/debug/app-debug.apk`.
 
 ---
 
