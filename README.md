@@ -20,10 +20,10 @@ Get the latest version of **BatteryIQ** directly onto your phone without needing
 
 | Version | Download Link | Release Date | What's New |
 | :---: | :---: | :---: | :--- |
-| **v1.1.0 (Latest)** | [⬇️ **Download BatteryIQ-v1.1.0.apk**](https://github.com/deepu324k/BatteryIQ/releases/download/v1.1.0/app-debug.apk) | March 2025 | Modernized Kotlin 2.0 / KSP, Custom Canvas Bezier chart, Edge-to-Edge |
+| **v1.1.0 (Latest)** | [⬇️ **Download BatteryIQ_v1.1.0.apk**](https://github.com/deepu324k/BatteryIQ/releases/download/v1.1.0/BatteryIQ_v1.1.0.apk) | March 2025 | Modernized Kotlin 2.0 / KSP, Custom Canvas Bezier chart, Edge-to-Edge |
 
 ### 📲 How to Install / Update on Your Phone:
-1. Tap the **[Download BatteryIQ APK](https://github.com/deepu324k/BatteryIQ/releases/download/v1.1.0/app-debug.apk)** link above directly on your Android device.
+1. Tap the **[Download BatteryIQ APK](https://github.com/deepu324k/BatteryIQ/releases/download/v1.1.0/BatteryIQ_v1.1.0.apk)** link above directly on your Android device.
 2. Open the downloaded `.apk` file from your browser downloads or Files app.
 3. If prompted, allow **"Install from unknown sources"** for your browser.
 4. Tap **Install** (or **Update** if you already have an older version installed).
