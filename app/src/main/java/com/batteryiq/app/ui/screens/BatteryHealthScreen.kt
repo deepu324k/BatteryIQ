@@ -29,19 +29,20 @@ import androidx.compose.material.icons.outlined.Shield
 import androidx.compose.material.icons.outlined.TipsAndUpdates
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -50,6 +51,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.batteryiq.app.data.model.BatteryHealth
 import com.batteryiq.app.data.model.BatteryHistoryEntry
 import com.batteryiq.app.data.model.BatteryInfo
@@ -58,18 +60,8 @@ import com.batteryiq.app.ui.theme.BatteryGood
 import com.batteryiq.app.ui.theme.BatteryWarning
 import com.batteryiq.app.ui.theme.ChargingBlue
 import com.batteryiq.app.ui.theme.Green50
-import com.batteryiq.app.ui.theme.Green80
 import com.batteryiq.app.ui.theme.Teal40
 import com.batteryiq.app.ui.viewmodel.BatteryHealthViewModel
-import com.patrykandpatrick.vico.compose.chart.Chart
-import com.patrykandpatrick.vico.compose.chart.line.lineChart
-import com.patrykandpatrick.vico.compose.chart.line.lineSpec
-import com.patrykandpatrick.vico.compose.component.shapeComponent
-import com.patrykandpatrick.vico.compose.component.textComponent
-import com.patrykandpatrick.vico.compose.dimensions.dimensionsOf
-import com.patrykandpatrick.vico.core.component.shape.Shapes
-import com.patrykandpatrick.vico.core.entry.FloatEntry
-import com.patrykandpatrick.vico.core.entry.entryModelOf
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -79,8 +71,8 @@ fun BatteryHealthScreen(
     modifier: Modifier = Modifier,
     viewModel: BatteryHealthViewModel = hiltViewModel()
 ) {
-    val batteryInfo by viewModel.batteryInfo.collectAsState()
-    val historyEntries by viewModel.historyEntries.collectAsState()
+    val batteryInfo by viewModel.batteryInfo.collectAsStateWithLifecycle()
+    val historyEntries by viewModel.historyEntries.collectAsStateWithLifecycle()
     val healthPercentage = viewModel.healthPercentage
 
     LazyColumn(
@@ -253,7 +245,7 @@ private fun BatteryDetailsCard(batteryInfo: BatteryInfo) {
                 value = healthDisplayText(batteryInfo.health)
             )
 
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier.padding(vertical = 12.dp),
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
             )
@@ -265,7 +257,7 @@ private fun BatteryDetailsCard(batteryInfo: BatteryInfo) {
                 value = batteryInfo.technology.ifBlank { "Unknown" }
             )
 
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier.padding(vertical = 12.dp),
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
             )
@@ -277,7 +269,7 @@ private fun BatteryDetailsCard(batteryInfo: BatteryInfo) {
                 value = "%.2f V".format(batteryInfo.voltage)
             )
 
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier.padding(vertical = 12.dp),
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
             )
@@ -294,7 +286,7 @@ private fun BatteryDetailsCard(batteryInfo: BatteryInfo) {
                 value = "%.1f °C".format(batteryInfo.temperature)
             )
 
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier.padding(vertical = 12.dp),
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
             )
@@ -306,7 +298,7 @@ private fun BatteryDetailsCard(batteryInfo: BatteryInfo) {
                 value = "${batteryInfo.capacity} mAh"
             )
 
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier.padding(vertical = 12.dp),
                 color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
             )
@@ -398,12 +390,12 @@ private fun ChargingHistoryChart(historyEntries: List<BatteryHistoryEntry>) {
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "No data yet",
+                            text = "No history recorded yet",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                         )
                         Text(
-                            text = "Battery history will appear here over time",
+                            text = "Battery levels will be graphed over time",
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f),
                             textAlign = TextAlign.Center
@@ -411,32 +403,104 @@ private fun ChargingHistoryChart(historyEntries: List<BatteryHistoryEntry>) {
                     }
                 }
             } else {
-                val chartEntries = remember(historyEntries) {
-                    historyEntries.mapIndexed { index, entry ->
-                        FloatEntry(
-                            x = index.toFloat(),
-                            y = entry.level.toFloat()
-                        )
-                    }
-                }
+                val lineColor = BatteryGood
+                val gridColor = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
+                val gradientStart = BatteryGood.copy(alpha = 0.35f)
+                val gradientEnd = BatteryGood.copy(alpha = 0.0f)
 
-                val chartEntryModel = remember(chartEntries) {
-                    entryModelOf(chartEntries)
-                }
-
-                Chart(
-                    chart = lineChart(
-                        lines = listOf(
-                            lineSpec(
-                                lineColor = BatteryGood
-                            )
-                        )
-                    ),
-                    model = chartEntryModel,
+                Canvas(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp)
-                )
+                        .height(180.dp)
+                ) {
+                    val w = size.width
+                    val h = size.height
+                    val paddingBottom = 24.dp.toPx()
+                    val chartHeight = h - paddingBottom
+
+                    // Draw 3 subtle horizontal guide lines: 100%, 50%, 0%
+                    val levels = listOf(0f, 0.5f, 1f)
+                    for (ratio in levels) {
+                        val y = chartHeight * (1f - ratio)
+                        drawLine(
+                            color = gridColor,
+                            start = Offset(0f, y),
+                            end = Offset(w, y),
+                            strokeWidth = 1.dp.toPx()
+                        )
+                    }
+
+                    if (historyEntries.size == 1) {
+                        val y = chartHeight * (1f - historyEntries.first().level / 100f)
+                        drawCircle(
+                            color = lineColor,
+                            radius = 6.dp.toPx(),
+                            center = Offset(w / 2f, y)
+                        )
+                    } else {
+                        val stepX = w / (historyEntries.size - 1)
+                        val points = historyEntries.mapIndexed { i, entry ->
+                            val x = i * stepX
+                            val clampedLevel = entry.level.coerceIn(0, 100)
+                            val y = chartHeight * (1f - (clampedLevel / 100f))
+                            Offset(x, y)
+                        }
+
+                        // Gradient fill path
+                        val fillPath = Path().apply {
+                            moveTo(points.first().x, chartHeight)
+                            lineTo(points.first().x, points.first().y)
+                            for (i in 0 until points.size - 1) {
+                                val p0 = points[i]
+                                val p1 = points[i + 1]
+                                val cx = (p0.x + p1.x) / 2f
+                                cubicTo(cx, p0.y, cx, p1.y, p1.x, p1.y)
+                            }
+                            lineTo(points.last().x, chartHeight)
+                            close()
+                        }
+
+                        drawPath(
+                            path = fillPath,
+                            brush = Brush.verticalGradient(
+                                colors = listOf(gradientStart, gradientEnd),
+                                startY = 0f,
+                                endY = chartHeight
+                            )
+                        )
+
+                        // Smooth line stroke
+                        val strokePath = Path().apply {
+                            moveTo(points.first().x, points.first().y)
+                            for (i in 0 until points.size - 1) {
+                                val p0 = points[i]
+                                val p1 = points[i + 1]
+                                val cx = (p0.x + p1.x) / 2f
+                                cubicTo(cx, p0.y, cx, p1.y, p1.x, p1.y)
+                            }
+                        }
+
+                        drawPath(
+                            path = strokePath,
+                            color = lineColor,
+                            style = Stroke(width = 3.dp.toPx(), cap = StrokeCap.Round)
+                        )
+
+                        // Data point dots
+                        for (p in points) {
+                            drawCircle(
+                                color = Color.White,
+                                radius = 4.dp.toPx(),
+                                center = p
+                            )
+                            drawCircle(
+                                color = lineColor,
+                                radius = 3.dp.toPx(),
+                                center = p
+                            )
+                        }
+                    }
+                }
 
                 Spacer(modifier = Modifier.height(8.dp))
 
@@ -445,18 +509,22 @@ private fun ChargingHistoryChart(historyEntries: List<BatteryHistoryEntry>) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     val timeFormat = remember { SimpleDateFormat("HH:mm", Locale.getDefault()) }
-                    if (historyEntries.isNotEmpty()) {
-                        Text(
-                            text = timeFormat.format(Date(historyEntries.first().timestamp)),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
-                        )
-                        Text(
-                            text = timeFormat.format(Date(historyEntries.last().timestamp)),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
-                        )
-                    }
+                    Text(
+                        text = timeFormat.format(Date(historyEntries.first().timestamp)),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                    )
+                    Text(
+                        text = "Now: ${historyEntries.last().level}%",
+                        style = MaterialTheme.typography.labelSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Text(
+                        text = timeFormat.format(Date(historyEntries.last().timestamp)),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                    )
                 }
             }
         }
